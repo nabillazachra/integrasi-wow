@@ -16,7 +16,7 @@ export default function Home() {
         <Col>
           <div className="cont">
             <img className="mb-5" src={Subs} alt="subscribe" />
-            <h2 className="mb-5">List Book</h2>
+            <h2 className="mb-5 fw-bold">List Book</h2>
             <ListData />
           </div>
         </Col>

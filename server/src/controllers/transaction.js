@@ -5,19 +5,6 @@ exports.addTransaction = async (req, res) => {
   try {
     const data = req.body;
 
-    const schema = Joi.object({
-      userId: Joi.number().required(),
-    });
-
-    const { error } = schema.validate(data);
-
-    if (error) {
-      return res.status(400).send({
-        status: "error",
-        message: error.details[0].message,
-      });
-    }
-
     const newTrans = await transaction.create({
       transferProof: req.file.filename,
       remainingActive: "30",

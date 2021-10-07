@@ -19,7 +19,7 @@ const {
 router.post("/user", addUser);
 router.get("/users", getUsers);
 router.get("/user/:id", getUser);
-router.patch("/user/:id", updateUser);
+router.patch("/user/:id", auth, updateUser);
 router.delete("/user/:id", deleteUser);
 
 //Controller books

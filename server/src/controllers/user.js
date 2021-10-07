@@ -1,4 +1,4 @@
-const { users, profile } = require("../../models");
+const { users } = require("../../models");
 
 //Add user route
 exports.addUser = async (req, res) => {
@@ -66,15 +66,20 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const updateData = {
+      phone: req.body.phone,
+      gender: req.body.gender,
+      address: req.body.address,
+    };
 
-    await users.update(req.body, {
+    await users.update(updateData, {
       where: { id },
     });
 
     res.send({
       status: "success",
       message: `Update user id: ${id} finished`,
-      data: req.body,
+      data: { user: updateData },
     });
   } catch (error) {
     console.log(error);
@@ -95,7 +100,7 @@ exports.deleteUser = async (req, res) => {
 
     res.send({
       status: "success",
-      data: {id: `${id}`,}
+      data: { id: `${id}` },
     });
   } catch (error) {
     console.log(error);

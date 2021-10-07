@@ -25,7 +25,6 @@ export default function ListData() {
     getBooks();
   }, []);
 
-  console.log(books);
   return (
     <>
       <Row>

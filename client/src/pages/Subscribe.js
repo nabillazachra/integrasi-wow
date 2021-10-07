@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Col, Form, Card, Modal } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import Wow from "../assets/img/Wow.png";
 import Attach from "../assets/img/Vector.png";
+
+import { API } from "../config/api";
+import { UserContext } from "../context/userContext";
 
 function ModalSuccess(props) {
   return (
@@ -21,20 +24,51 @@ function ModalSuccess(props) {
 
 export default function Subscribe() {
   const [modalShow, setModalShow] = useState(false);
-  const [subscibeState, setSubscribeState] = useState({
-    account: "",
+  const [state] = useContext(UserContext);
+
+  const [preview, setPreview] = useState(null);
+  const [form, setForm] = useState({
+    transferProof: "",
+    userId: state.user.id,
   });
 
   const handleSubscribeChange = (e) => {
-    setSubscribeState({
-      ...subscibeState,
-      [e.target.name]: e.target.value,
+    setForm({
+      ...form,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files : e.target.value,
     });
+
+    if (e.target.type === "file") {
+      let url = URL.createObjectURL(e.target.files[0]);
+      setPreview(url);
+    }
   };
 
-  const handleSubscibeSubmit = (e) => {
-    e.preventDefault();
-    setModalShow(true);
+  const handleSubscibeSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const config = {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      };
+
+      const formData = new FormData();
+      formData.set(
+        "transferProof",
+        form.transferProof[0],
+        form.transferProof[0].name
+      );
+
+      const response = await API.post("/transaction", formData, config);
+      console.log(response);
+
+      setModalShow(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -55,18 +89,23 @@ export default function Subscribe() {
                 <img src={Wow} alt="" />
                 <span className="fw-bold">: 0981312323</span>
               </span>
-              <Form className="mt-3">
+              <Form onSubmit={handleSubscibeSubmit} className="mt-3">
                 <Form.Group className="mb-3">
                   <Form.Control
-                    onChange={handleSubscribeChange}
                     type="text"
                     name="account"
                     placeholder="Input your account number"
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Control type="file" name="file" hidden id="file" />
-                  <label for="file">
+                  <Form.Control
+                    onChange={handleSubscribeChange}
+                    type="file"
+                    name="transferProof"
+                    hidden
+                    id="file"
+                  />
+                  <label htmlFor="file">
                     <Card style={{ height: "40px", width: "25rem" }}>
                       <Card.Body style={{ marginTop: "-10px" }}>
                         <span className="me-5 text-start text-danger fw-bold p-e">
@@ -79,11 +118,21 @@ export default function Subscribe() {
                     </Card>
                   </label>
                 </Form.Group>
-                <button
-                  onClick={handleSubscibeSubmit}
-                  className="btn-reg auto w-100 mt-5"
-                  type="submit"
-                >
+                {preview && (
+                  <div>
+                    <img
+                      className="mt-5"
+                      src={preview}
+                      style={{
+                        maxWidth: "300px",
+                        maxHeight: "300px",
+                        objectFit: "cover",
+                      }}
+                      alt="preview"
+                    />
+                  </div>
+                )}
+                <button className="btn-reg auto w-100 mt-5" type="submit">
                   Send
                 </button>
                 <ModalSuccess

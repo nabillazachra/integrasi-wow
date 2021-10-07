@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import books from "../data/bookData";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
+
+import { API } from "../config/api";
 
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineRight } from "react-icons/ai";
@@ -22,18 +23,25 @@ function ModalSubscribe(props) {
 }
 
 export default function AboutBookComp() {
-  const [data, setData] = useState(null);
+  let history = useHistory();
   const [modalShow, setModalShow] = useState(false);
 
   let { id } = useParams();
 
-  useEffect(() => {
-    if (books.length > 0) {
-      const book = books.find((item) => item.id === parseInt(id));
-      setData(book);
+  const [book, setBook] = useState(null);
+
+  const getBook = async () => {
+    try {
+      const response = await API.get("/book/" + id);
+      setBook(response.data.data.book);
+    } catch (error) {
+      console.log(error);
     }
-  }, [id]);
-  let history = useHistory();
+  };
+
+  useEffect(() => {
+    getBook();
+  });
 
   const handleReadBook = () => {
     history.push("/read-book");
@@ -48,7 +56,7 @@ export default function AboutBookComp() {
     <>
       <div className="mb-5">
         <h2 className="mb-3">About This Book</h2>
-        <p className="text-muted text-wrap">{data?.about}</p>
+        <p className="text-muted text-wrap">{book?.about}</p>
         <div className="text-end mt-5">
           <button onClick={handleMyList} className="btn-reg auto me-2">
             Add My List <BsBookmark />
