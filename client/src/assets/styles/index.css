@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
+.container {
+  max-width: fit-content;
+}
+
 body {
   box-sizing: border-box !important;
   -webkit-font-smoothing: antialiased !important;

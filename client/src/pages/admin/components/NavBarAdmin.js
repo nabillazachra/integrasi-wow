@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Wow from "../../../assets/img/Icon.png";
 import { Link } from "react-router-dom";
 import NavDown from "./NavDown";
@@ -7,7 +7,7 @@ import NavDown from "./NavDown";
 export default function NavBarAdmin(props) {
   return (
     <>
-      <Container className="container-fluid">
+      <div className="container-fluid">
         <Row>
           <Col>
             <section>
@@ -22,7 +22,7 @@ export default function NavBarAdmin(props) {
             </section>
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 }

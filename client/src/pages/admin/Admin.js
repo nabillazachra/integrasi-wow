@@ -12,7 +12,7 @@ export default function Admin() {
             <NavBarAdmin />
           </Col>
           <Col>
-            <h2 className="mb-5">Incoming Transaction</h2>
+            <h2 className="mb-5 fw-bold">Incoming Transaction</h2>
             <List />
           </Col>
         </Row>

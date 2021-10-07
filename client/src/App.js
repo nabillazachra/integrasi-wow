@@ -1,10 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./context/userContext";
 
@@ -31,23 +26,21 @@ if (localStorage.token) {
 function App() {
   let history = useHistory();
   const [state, dispatch] = useContext(UserContext);
-  // console.clear();
-  console.log(state);
-  // useEffect(() => {
-  //   if (localStorage.token) {
-  //     setAuthToken(localStorage.token);
-  //   }
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
 
-  //   if (state.isLogin === false) {
-  //     history.push("/");
-  //   } else {
-  //     if (state.data.user.role === "admin") {
-  //       history.push("/admin");
-  //     } else if (state.data.user.role === "user") {
-  //       history.push("/");
-  //     }
-  //   }
-  // }, [state]);
+    if (state.isLogin === false) {
+      history.push("/");
+    } else {
+      if (state.user.role === "admin") {
+        history.push("/admin");
+      } else if (state.user.role === "user") {
+        history.push("/home");
+      }
+    }
+  }, [state]);
 
   const checkUser = async () => {
     try {
@@ -76,20 +69,18 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <PrivateRoute path="/profile" component={Profile} />
-        <PrivateRoute path="/subscribe" component={Subscribe} />
-        <PrivateRoute path="/home" component={Home} />
-        <PrivateRoute path="/admin" component={Admin} />
-        <PrivateRoute path="/detail-book/:id" component={DetailBook} />
-        <PrivateRoute path="/read-book" component={ReadBook} />
-        <PrivateRoute path="/add-book" component={AddBook} />
-        <PrivateRoute path="/edit-profile" component={EditProfile} />
-        <Route exact path="*" component={NotFound} />
-      </Switch>
-    </Router>
+    <Switch>
+      <Route exact path="/" component={LandingPage} />
+      <PrivateRoute path="/profile" component={Profile} />
+      <PrivateRoute path="/subscribe" component={Subscribe} />
+      <PrivateRoute path="/home" component={Home} />
+      <PrivateRoute path="/admin" component={Admin} />
+      <PrivateRoute path="/detail-book/:id" component={DetailBook} />
+      <PrivateRoute path="/read-book" component={ReadBook} />
+      <PrivateRoute path="/add-book" component={AddBook} />
+      <PrivateRoute path="/edit-profile" component={EditProfile} />
+      <Route exact path="*" component={NotFound} />
+    </Switch>
   );
 }
 

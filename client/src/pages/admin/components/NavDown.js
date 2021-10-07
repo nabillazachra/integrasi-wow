@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import zayn from "../../../assets/img/zayn.png";
 import { Dropdown } from "react-bootstrap";
 import { MdBook } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 
 import { useHistory } from "react-router";
+
+import { UserContext } from "../../../context/userContext";
 
 export default function NavDown() {
   let historyAddBook = useHistory();
@@ -15,7 +17,13 @@ export default function NavDown() {
 
   let historyLogout = useHistory();
 
-  const handleLogout = () => {
+  const [state, dispatch] = useContext(UserContext);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "LOGOUT",
+    });
     historyLogout.push("/");
   };
 
@@ -36,7 +44,7 @@ export default function NavDown() {
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
           <img
             src={zayn}
-            className="ava p-e"
+            className="ava p-e mb-5"
             id="dropdown-basic"
             alt="avatar"
           />

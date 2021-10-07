@@ -14,10 +14,10 @@ export default function Profile() {
         </Col>
         <Col>
           <div className="cont">
-            <h1 className="ms-5 mb-5">Profile</h1>
+            <h1 className="ms-5 mb-5 fw-bold">Profile</h1>
             <ProfileCard />
             <div className="ms-5 mt-5">
-              <h2 className="mb-5">List Book</h2>
+              <h2 className="mb-5 fw-bold">List Book</h2>
               <ListData />
             </div>
           </div>

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import users from "../../../data/userData";
 import { AiFillCaretDown } from "react-icons/ai";
 import { Dropdown } from "react-bootstrap";
+
+import { API } from "../../../config/api";
 
 function DropdownList() {
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -37,6 +38,22 @@ function DropdownList() {
 }
 
 export default function List() {
+  const [transactions, setTransactions] = useState([]);
+
+  const getTransactions = async () => {
+    try {
+      const response = await API.get("/transactions");
+
+      setTransactions(response.data.data.transactions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
   const getBackgroundColor = (dataStatus) => {
     if (dataStatus === "Approved") {
       return <span className="text-success">{dataStatus}</span>;
@@ -51,7 +68,7 @@ export default function List() {
 
   return (
     <>
-      <Table responsive striped hover>
+      <Table striped hover>
         <thead>
           <tr>
             <th className="text-danger">No</th>
@@ -64,24 +81,24 @@ export default function List() {
           </tr>
         </thead>
         <tbody>
-          {users.map((userData, index) => (
+          {transactions?.map((userData, index) => (
             <tr key={index}>
               <td>{userData.id}</td>
-              <td>{userData.name}</td>
-              <td>{userData.tf}</td>
-              <td>{userData.remaining} / Hari</td>
+              <td>{userData.users.fullname}</td>
+              <td>{userData.transferProof}</td>
+              <td>{userData.remainingActive} / Hari</td>
               <td>
                 <span
                   className={
-                    userData.userStats === "Active"
+                    userData.userStatus === "Active"
                       ? "text-success"
                       : "text-danger"
                   }
                 >
-                  {userData.userStats}
+                  {userData.userStatus}
                 </span>
               </td>
-              <td>{getBackgroundColor(userData.paymentStats)}</td>
+              <td>{getBackgroundColor(userData.paymentStatus)}</td>
               <td align="center">
                 <DropdownList />
               </td>

@@ -6,17 +6,17 @@ exports.addTransaction = async (req, res) => {
     const data = req.body;
 
     const schema = Joi.object({
-    userId: Joi.number().required(),
-  });
-
-  const { error } = schema.validate(data);
-
-  if (error) {
-    return res.status(400).send({
-      status: "error",
-      message: error.details[0].message,
+      userId: Joi.number().required(),
     });
-  }
+
+    const { error } = schema.validate(data);
+
+    if (error) {
+      return res.status(400).send({
+        status: "error",
+        message: error.details[0].message,
+      });
+    }
 
     const newTrans = await transaction.create({
       transferProof: req.file.filename,
@@ -45,8 +45,8 @@ exports.addTransaction = async (req, res) => {
     res.send({
       status: "success",
       data: {
-          ...transactionData.dataValues,
-          transferProof: process.env.FILE_PATH + transactionData.transferProof,
+        ...transactionData.dataValues,
+        transferProof: process.env.FILE_PATH + transactionData.transferProof,
       },
     });
   } catch (error) {
@@ -78,7 +78,6 @@ exports.getTransactions = async (req, res) => {
     transactions = transactions.map((data) => {
       return {
         ...data,
-        transferProof: process.env.FILE_PATH + data.transferProof,
       };
     });
 
@@ -86,7 +85,7 @@ exports.getTransactions = async (req, res) => {
       status: "success",
       data: {
         transactions,
-     }
+      },
     });
   } catch (error) {
     console.log(error);
@@ -126,8 +125,8 @@ exports.getTransaction = async (req, res) => {
     res.send({
       status: "success",
       data: {
-        transaction: data
-      }
+        transaction: data,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -142,7 +141,23 @@ exports.updateTransaction = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   try {
-    await transaction.update(data, { where: { id } });
+    if (req.body.paymentStatus === "Approved") {
+      await transaction.update(
+        {
+          userStatus: "Active",
+          paymentStatus: req.body.paymentStatus,
+        },
+        { where: { id } }
+      );
+    } else {
+      await transaction.update(
+        {
+          userStatus: "Not Active",
+          paymentStatus: req.body.paymentStatus,
+        },
+        { where: { id } }
+      );
+    }
 
     let transData = await transaction.findOne({
       where: { id },
@@ -168,7 +183,7 @@ exports.updateTransaction = async (req, res) => {
     res.send({
       status: "success",
       data: {
-          transData
+        transData,
       },
     });
   } catch (error) {

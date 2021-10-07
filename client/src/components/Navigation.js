@@ -11,7 +11,7 @@ import SideProfile from "../components/SideProfile";
 
 export default function Navigation() {
   const [state, dispatch] = useContext(UserContext);
-  console.log(state);
+  // console.log(state);
 
   let history = useHistory();
 
