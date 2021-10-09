@@ -120,19 +120,6 @@ export default function FormAddBook() {
             rows="3"
           ></textarea>
         </div>
-        {preview && (
-          <div>
-            <img
-              src={preview}
-              style={{
-                maxWidth: "150px",
-                maxHeight: "150px",
-                objectFit: "cover",
-              }}
-              alt="preview"
-            />
-          </div>
-        )}
         <div>
           <label htmlFor="file">
             <input
@@ -151,6 +138,19 @@ export default function FormAddBook() {
               </Card.Body>
             </Card>
           </label>
+          {preview && (
+            <div className="mt-3 mb-3">
+              <img
+                src={preview}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  objectFit: "cover",
+                }}
+                alt="preview"
+              />
+            </div>
+          )}
           <div className="mb-5 mt-2 text-end">
             <button type="submit" className="btn-reg auto">
               Add Book

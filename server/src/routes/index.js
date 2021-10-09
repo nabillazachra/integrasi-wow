@@ -18,7 +18,7 @@ const {
 //init route controller user
 router.post("/user", addUser);
 router.get("/users", getUsers);
-router.get("/user/:id", getUser);
+router.get("/user/:id", auth, getUser);
 router.patch("/user/:id", auth, updateUser);
 router.delete("/user/:id", deleteUser);
 
@@ -32,10 +32,10 @@ const {
 } = require("../controllers/books");
 
 //init route controller books
-router.post("/book", auth, uploadFile("bookFile"), addBook);
+router.post("/book", auth, uploadFile(), addBook);
 router.get("/books", getBooks);
 router.get("/book/:id", getBook);
-router.patch("/book/:id", auth, uploadFile("bookFile"), updateBook);
+router.patch("/book/:id", auth, uploadFile("bookFile", "cover"), updateBook);
 router.delete("/book/:id", auth, deleteBook);
 
 //controllers auth

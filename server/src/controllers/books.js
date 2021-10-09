@@ -24,7 +24,8 @@ exports.addBook = async (req, res) => {
   try {
     const newBook = await books.create({
       ...data,
-      bookFile: req.file.filename,
+      bookFile: req.file.bookFile.filename,
+      cover: req.file.cover.filename,
       userId: req.users.id,
     });
 
@@ -43,6 +44,7 @@ exports.addBook = async (req, res) => {
         book: {
           ...bookData.dataValues,
           bookFile: process.env.FILE_PATH + bookData.bookFile,
+          cover: process.env.FILE_PATH + bookData.cover,
         },
       },
     });
@@ -67,7 +69,7 @@ exports.getBooks = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
+        exclude: ["cover", "bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 
@@ -105,7 +107,7 @@ exports.getBook = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
+        exclude: ["cover", "bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 

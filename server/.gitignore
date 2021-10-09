@@ -12,4 +12,4 @@
 npm-debug.log*
 
 # image file
-/uploads/*[.jpg, .png]
+/uploads/*[.jpg, .png, .jpeg, .pdf, .JPG, .PNG, .JPEG, .PDF]

@@ -53,6 +53,7 @@ function App() {
       }
 
       let payload = response.data.data.user;
+      // console.log(payload);
       payload.token = localStorage.token;
 
       dispatch({
