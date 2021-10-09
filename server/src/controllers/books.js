@@ -24,31 +24,31 @@ exports.addBook = async (req, res) => {
   }
 
   try {
-    // const newBook = await books.create({
-    //   ...data,
-    //   bookFile: req.files.bookFile[0].filename,
-    //   cover: req.files.cover[0].filename,
-    //   userId: req.users.id,
-    // });
+    const newBook = await books.create({
+      ...data,
+      bookFile: req.files.bookFile[0].filename,
+      cover: req.files.cover[0].filename,
+      userId: req.users.id,
+    });
 
-    // let bookData = await books.findOne({
-    //   where: {
-    //     id: newBook.id,
-    //   },
-    //   attributes: {
-    //     exclude: ["userId", "bookId", "createdAt", "updatedAt"],
-    //   },
-    // });
+    let bookData = await books.findOne({
+      where: {
+        id: newBook.id,
+      },
+      attributes: {
+        exclude: ["userId", "bookId", "createdAt", "updatedAt"],
+      },
+    });
 
     res.send({
       status: "success",
-      // data: {
-      //   book: {
-      //     ...bookData.dataValues,
-      //     bookFile: process.env.FILE_PATH + bookData.bookFile,
-      //     cover: process.env.FILE_PATH + bookData.cover,
-      //   },
-      // },
+      data: {
+        book: {
+          ...bookData.dataValues,
+          bookFile: process.env.FILE_PATH + bookData.bookFile,
+          cover: process.env.FILE_PATH + bookData.cover,
+        },
+      },
     });
   } catch (error) {
     console.log(error);

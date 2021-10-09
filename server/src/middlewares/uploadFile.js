@@ -1,7 +1,7 @@
 const multer = require("multer");
 
-exports.uploadFile = (cover, bookFile, transferProof) => {
-  console.log(bookFile);
+exports.uploadFile = (image, bookFile) => {
+  console.log(image, bookFile);
   const storage = multer.diskStorage({
     destination: function (req, res, cb) {
       cb(null, "uploads");
@@ -12,30 +12,17 @@ exports.uploadFile = (cover, bookFile, transferProof) => {
   });
 
   const fileFilter = function (req, file, cb) {
+    if (file.fieldname === image) {
+      if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+        req.fileValidationError = "Only image files are allowed!";
+        return cb(new Error("Only image files are allowed!"), false);
+      }
+    }
+
     if (file.fieldname === bookFile) {
-      if (!file.originalname.match(/\.(EPUB|epub|pdf|PDF)$/)) {
-        req.fileValidationError = {
-          message: "only book files are allowed!",
-        };
-        return cb(new Error("Only book files are allowed"), false);
-      }
-    }
-
-    if (file.fieldname === cover) {
-      if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
-        req.fileValidationError = {
-          message: "only image files are allowed!",
-        };
-        return cb(new Error("Only image files are allowed"), false);
-      }
-    }
-
-    if (file.fieldname === transferProof) {
-      if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
-        req.fileValidationError = {
-          message: "only image files are allowed!",
-        };
-        return cb(new Error("Only image files are allowed"), false);
+      if (!file.originalname.match(/\.(epub|EPUB|pdf|PDF)$/)) {
+        req.fileValidationError = "Only Book files are allowed!";
+        return cb(new Error("Only Book files are allowed!"), false);
       }
     }
 
@@ -53,15 +40,11 @@ exports.uploadFile = (cover, bookFile, transferProof) => {
     },
   }).fields([
     {
+      name: image,
+      maxCount: 1,
+    },
+    {
       name: bookFile,
-      maxCount: 1,
-    },
-    {
-      name: cover,
-      maxCount: 1,
-    },
-    {
-      name: transferProof,
       maxCount: 1,
     },
   ]);
@@ -72,7 +55,7 @@ exports.uploadFile = (cover, bookFile, transferProof) => {
         return res.status(400).send(req.fileValidationError);
       }
 
-      if (!req.file && !err) {
+      if (!req.files && !err) {
         return res.status(400).send({
           message: "please select file to upload",
         });
