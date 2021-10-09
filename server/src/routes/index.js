@@ -32,10 +32,10 @@ const {
 } = require("../controllers/books");
 
 //init route controller books
-router.post("/book", auth, uploadFile(), addBook);
+router.post("/book", auth, uploadFile("cover", "bookFile"), addBook);
 router.get("/books", getBooks);
 router.get("/book/:id", getBook);
-router.patch("/book/:id", auth, uploadFile("bookFile", "cover"), updateBook);
+router.patch("/book/:id", auth, uploadFile("cover", "bookFile"), updateBook);
 router.delete("/book/:id", auth, deleteBook);
 
 //controllers auth

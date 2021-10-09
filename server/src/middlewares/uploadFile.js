@@ -1,7 +1,7 @@
-const { func } = require("joi");
 const multer = require("multer");
 
-exports.uploadFile = (bookFile, cover) => {
+exports.uploadFile = (cover, bookFile, transferProof) => {
+  console.log(bookFile);
   const storage = multer.diskStorage({
     destination: function (req, res, cb) {
       cb(null, "uploads");
@@ -12,23 +12,33 @@ exports.uploadFile = (bookFile, cover) => {
   });
 
   const fileFilter = function (req, file, cb) {
-    if (file.filename === bookFile) {
+    if (file.fieldname === bookFile) {
       if (!file.originalname.match(/\.(EPUB|epub|pdf|PDF)$/)) {
         req.fileValidationError = {
-          message: "only book bookFile are allowed!",
+          message: "only book files are allowed!",
         };
-        return cb(new Error("Only book bookFile are allowed"), false);
+        return cb(new Error("Only book files are allowed"), false);
       }
     }
 
-    if (file.filename === cover) {
+    if (file.fieldname === cover) {
       if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
         req.fileValidationError = {
-          message: "only image bookFile are allowed!",
+          message: "only image files are allowed!",
         };
-        return cb(new Error("Only image bookFile are allowed"), false);
+        return cb(new Error("Only image files are allowed"), false);
       }
     }
+
+    if (file.fieldname === transferProof) {
+      if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
+        req.fileValidationError = {
+          message: "only image files are allowed!",
+        };
+        return cb(new Error("Only image files are allowed"), false);
+      }
+    }
+
     cb(null, true);
   };
 
@@ -43,11 +53,15 @@ exports.uploadFile = (bookFile, cover) => {
     },
   }).fields([
     {
+      name: bookFile,
+      maxCount: 1,
+    },
+    {
       name: cover,
       maxCount: 1,
     },
     {
-      name: bookFile,
+      name: transferProof,
       maxCount: 1,
     },
   ]);
