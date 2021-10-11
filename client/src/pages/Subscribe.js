@@ -28,6 +28,7 @@ export default function Subscribe() {
 
   const [preview, setPreview] = useState(null);
   const [form, setForm] = useState({
+    accountNumber: "",
     transferProof: "",
     userId: state.user.id,
   });
@@ -56,6 +57,7 @@ export default function Subscribe() {
       };
 
       const formData = new FormData();
+      formData.set("accountNumber", form.accountNumber);
       formData.set(
         "transferProof",
         form.transferProof[0],
@@ -93,7 +95,8 @@ export default function Subscribe() {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    name="account"
+                    onChange={handleSubscribeChange}
+                    name="accountNumber"
                     placeholder="Input your account number"
                   />
                 </Form.Group>
