@@ -38,6 +38,8 @@ export default function ListData() {
 
   const [user, setUser] = useState(null);
 
+  let isResponse = false;
+
   const getUser = async () => {
     try {
       const response = await API.get("/user/" + state.user.id);
@@ -46,6 +48,14 @@ export default function ListData() {
       console.log(error);
     }
   };
+
+  if (user?.clientTransaction.length <= 0) {
+    isResponse = false;
+  } else if (user?.clientTransaction[0].userStatus === "Not Active") {
+    isResponse = false;
+  } else {
+    isResponse = true;
+  }
 
   const handleMyList = (e) => {
     e.preventDefault();
@@ -66,7 +76,7 @@ export default function ListData() {
             <p
               className="fw-bold p-e"
               onClick={
-                user?.clientTransaction[0].userStatus === "Not Active"
+                !isResponse
                   ? handleMyList
                   : () => {
                       history.push("/detail-book/" + item.id);

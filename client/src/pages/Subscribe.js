@@ -6,6 +6,7 @@ import Attach from "../assets/img/Vector.png";
 
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
+import { useHistory } from "react-router";
 
 function ModalSuccess(props) {
   return (
@@ -23,6 +24,7 @@ function ModalSuccess(props) {
 }
 
 export default function Subscribe() {
+  let history = useHistory();
   const [modalShow, setModalShow] = useState(false);
   const [state] = useContext(UserContext);
 
@@ -65,9 +67,10 @@ export default function Subscribe() {
       );
 
       const response = await API.post("/transaction", formData, config);
-      console.log(response);
+      // console.log(response);
 
       setModalShow(true);
+      history.push("/home");
     } catch (error) {
       console.log(error);
     }

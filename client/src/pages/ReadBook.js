@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { ReactReader } from "react-reader";
 import { useParams } from "react-router";
 
@@ -31,20 +31,20 @@ export default function ReadBook() {
   }, []);
   return (
     <>
-      <Container>
-        <Row className="d-flex flex-column">
-          <Col className="mb-5">
+      <div>
+        <div className="d-flex flex-column">
+          <div className="mb-5">
             <NavBar />
-          </Col>
-          <Col className="w-100 m-auto">
+          </div>
+          <div style={{ position: "relative", height: "100vh" }}>
             <ReactReader
               location={location}
               locationChanged={locationChanged}
               url={book?.bookFile}
             />
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

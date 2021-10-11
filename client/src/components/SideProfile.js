@@ -12,6 +12,8 @@ export default function SideProfile() {
 
   const [user, setUser] = useState(null);
 
+  let isResponse = false;
+
   const getUser = async () => {
     try {
       const response = await API.get("/user/" + state.user.id);
@@ -20,6 +22,14 @@ export default function SideProfile() {
       console.log(error);
     }
   };
+
+  if (user?.clientTransaction.length <= 0) {
+    isResponse = false;
+  } else if (user?.clientTransaction[0].userStatus === "Not Active") {
+    isResponse = false;
+  } else {
+    isResponse = true;
+  }
 
   useEffect(() => {
     getUser();
@@ -36,14 +46,10 @@ export default function SideProfile() {
         <img src={Zayn} className="ava" alt="avatar" />
       </div>
       <div className="d-flex flex-column mt-3">
-        <h4 className="text-center fw-bold mb-2">{state.user.fullname}</h4>
-        {user?.clientTransaction[0].userStatus === "Not Active" ? (
-          <h6 className="fw-bold text-center text-danger">
-            Not Subscribed Yet
-          </h6>
-        ) : (
-          <h6 className="fw-bold text-center text-success">Subscribed</h6>
-        )}
+        <h4 className="text-center fw-bold mb-2">{state?.user?.fullname}</h4>
+        <h6 className="fw-bold text-center text-success">
+          {isResponse ? "Subscribe" : "Not Subscribed Yet"}
+        </h6>
       </div>
     </>
   );

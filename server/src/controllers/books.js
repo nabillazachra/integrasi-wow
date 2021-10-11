@@ -172,6 +172,7 @@ exports.updateBook = async (req, res) => {
 
     book = {
       ...book,
+      cover: process.env.FILE_PATH + book.cover,
       bookFile: process.env.FILE_PATH + book.bookFile,
     };
 

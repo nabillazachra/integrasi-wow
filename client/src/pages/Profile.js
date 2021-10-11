@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Col } from "react-bootstrap";
 
 import Navigation from "../components/Navigation";
-import ListData from "../components/ListData";
+import MyList from "../components/MyList";
 import ProfileCard from "../components/ProfileCard";
 
 export default function Profile() {
@@ -18,7 +18,7 @@ export default function Profile() {
             <ProfileCard />
             <div className="ms-5 mt-5">
               <h2 className="mb-5 fw-bold">List Book</h2>
-              <ListData />
+              <MyList />
             </div>
           </div>
         </Col>

@@ -54,7 +54,7 @@ export default function FormEditProfile() {
       formData.set("address", form.address);
 
       const response = await API.patch("/user/" + id, formData, config);
-      console.log(response.data.data);
+      console.log(response.data.data.user);
       history.push("/profile");
     } catch (error) {
       console.log();

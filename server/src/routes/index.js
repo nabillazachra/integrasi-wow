@@ -63,6 +63,6 @@ router.patch("/transaction/:id", auth, updateTransaction);
 const { addList, getLists } = require("../controllers/booklist");
 
 router.post("/book-list", auth, addList);
-router.get("/book-lists", auth, getLists);
+router.get("/book-list/:id", auth, getLists);
 
 module.exports = router;
