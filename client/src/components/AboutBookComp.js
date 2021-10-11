@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 
@@ -6,13 +6,44 @@ import { API } from "../config/api";
 
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineRight } from "react-icons/ai";
+import { UserContext } from "../context/userContext";
 
 export default function AboutBookComp() {
+  const [state] = useContext(UserContext);
   let history = useHistory();
 
   let { id } = useParams();
 
   const [book, setBook] = useState(null);
+
+  const [myList, setMyList] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const check = async () => {
+    try {
+      const check = await API.get("/book-list" + state.user.id);
+      const checkBool = check.data.data.list.books.filter((item) => {
+        return item.Books?.id === +id;
+      });
+      checkBool.length > 0 ? setIsChecked(true) : setIsChecked(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddMyList = async () => {
+    try {
+      const body = {
+        bookId: id,
+      };
+      const res = await API.post("/book-list", body);
+      setMyList(res.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+
+    history.push("/profile");
+  };
 
   const getBook = async () => {
     try {
@@ -25,6 +56,7 @@ export default function AboutBookComp() {
 
   useEffect(() => {
     getBook();
+    check();
   }, []);
 
   const handleReadBook = () => {
@@ -37,9 +69,11 @@ export default function AboutBookComp() {
         <h2 className="mb-3">About This Book</h2>
         <p className="text-muted text-wrap">{book?.about}</p>
         <div className="text-end mt-5">
-          <button className="btn-reg auto me-2">
-            Add My List <BsBookmark />
-          </button>
+          {isChecked ? null : (
+            <button onClick={handleAddMyList} className="btn-reg auto me-2">
+              Add My List <BsBookmark />
+            </button>
+          )}
           <button className="btn-secondary auto" onClick={handleReadBook}>
             Read Book <AiOutlineRight />
           </button>

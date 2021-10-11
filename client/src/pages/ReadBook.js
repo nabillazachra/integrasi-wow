@@ -36,7 +36,10 @@ export default function ReadBook() {
           <div className="mb-5">
             <NavBar />
           </div>
-          <div style={{ position: "relative", height: "100vh" }}>
+          <div
+            className="p-3"
+            style={{ position: "relative", height: "100vh" }}
+          >
             <ReactReader
               location={location}
               locationChanged={locationChanged}

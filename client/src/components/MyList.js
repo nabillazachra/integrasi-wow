@@ -22,16 +22,6 @@ export default function ListData() {
     }
   };
 
-  let test = book.map((item) => {
-    return item;
-  });
-
-  console.log(test);
-
-  const handleMyList = (e) => {
-    e.preventDefault();
-  };
-
   useEffect(() => {
     getBooks();
   }, []);
