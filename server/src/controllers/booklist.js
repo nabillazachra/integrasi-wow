@@ -15,7 +15,23 @@ exports.addList = async (req, res) => {
       },
       include: {
         models: users,
-        as: "users",
+        as: "bookList",
+        attributes: {
+          exclude: [
+            "email",
+            "password",
+            "role",
+            "phone",
+            "gender",
+            "address",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+      },
+      include: {
+        models: books,
+        as: "bookList",
         attributes: {
           exclude: [
             "email",

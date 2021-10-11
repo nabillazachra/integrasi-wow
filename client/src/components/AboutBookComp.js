@@ -28,7 +28,7 @@ export default function AboutBookComp() {
   }, []);
 
   const handleReadBook = () => {
-    history.push("/read-book");
+    history.push("/read-book/" + id);
   };
 
   return (

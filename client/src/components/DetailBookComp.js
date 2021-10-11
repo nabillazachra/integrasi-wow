@@ -27,7 +27,7 @@ export default function DetailBookComp() {
       <div className="d-flex">
         <div className="me-5">
           <img
-            src={book?.bookFile}
+            src={book?.cover}
             alt="book"
             className="mb-5"
             style={{ width: "300px" }}

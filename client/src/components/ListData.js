@@ -62,7 +62,7 @@ export default function ListData() {
       <Row>
         {books?.map((item, index) => (
           <Col key={index} className="mb-5">
-            <img className="mb-3" src={item.bookFile} alt={item.title} />
+            <img className="mb-3" src={item.cover} alt={item.title} />
             <p
               className="fw-bold p-e"
               onClick={

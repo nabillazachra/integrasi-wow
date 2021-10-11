@@ -71,7 +71,7 @@ exports.getBooks = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["cover", "bookId", "createdAt", "updatedAt", "userId"],
+        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 
@@ -81,6 +81,7 @@ exports.getBooks = async (req, res) => {
       return {
         ...item,
         bookFile: process.env.FILE_PATH + item.bookFile,
+        cover: process.env.FILE_PATH + item.cover,
       };
     });
     res.send({
@@ -109,7 +110,7 @@ exports.getBook = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["cover", "bookId", "createdAt", "updatedAt", "userId"],
+        exclude: ["bookId", "createdAt", "updatedAt", "userId"],
       },
     });
 
@@ -118,6 +119,7 @@ exports.getBook = async (req, res) => {
     book = {
       ...book,
       bookFile: process.env.FILE_PATH + book.bookFile,
+      cover: process.env.FILE_PATH + book.cover,
     };
 
     res.send({

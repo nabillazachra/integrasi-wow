@@ -87,10 +87,9 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const data = req.body;
     const updateData = {
-      phone: req.body.phone,
-      gender: req.body.gender,
-      address: req.body.address,
+      ...data,
     };
 
     await users.update(updateData, {

@@ -77,9 +77,9 @@ function App() {
       <PrivateRoute path="/home" component={Home} />
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute path="/detail-book/:id" component={DetailBook} />
-      <PrivateRoute path="/read-book" component={ReadBook} />
+      <PrivateRoute path="/read-book/:id" component={ReadBook} />
       <PrivateRoute path="/add-book" component={AddBook} />
-      <PrivateRoute path="/edit-profile" component={EditProfile} />
+      <PrivateRoute path="/edit-profile/:id" component={EditProfile} />
       <Route exact path="*" component={NotFound} />
     </Switch>
   );

@@ -158,6 +158,9 @@ exports.checkAuth = async (req, res) => {
           fullname: dataUser.fullname,
           email: dataUser.email,
           role: dataUser.role,
+          gender: dataUser.gender,
+          phone: dataUser.phone,
+          address: dataUser.address,
         },
       },
     });
