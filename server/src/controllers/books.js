@@ -3,6 +3,8 @@ const Joi = require("joi");
 
 exports.addBook = async (req, res) => {
   const data = req.body;
+  console.log(req.body);
+
   const schema = Joi.object({
     title: Joi.string().min(5).required(),
     publicationDate: Joi.string().min(6).required(),
@@ -24,7 +26,8 @@ exports.addBook = async (req, res) => {
   try {
     const newBook = await books.create({
       ...data,
-      bookFile: req.file.filename,
+      bookFile: req.files.bookFile[0].filename,
+      cover: req.files.cover[0].filename,
       userId: req.users.id,
     });
 
@@ -43,6 +46,7 @@ exports.addBook = async (req, res) => {
         book: {
           ...bookData.dataValues,
           bookFile: process.env.FILE_PATH + bookData.bookFile,
+          cover: process.env.FILE_PATH + bookData.cover,
         },
       },
     });
@@ -77,6 +81,7 @@ exports.getBooks = async (req, res) => {
       return {
         ...item,
         bookFile: process.env.FILE_PATH + item.bookFile,
+        cover: process.env.FILE_PATH + item.cover,
       };
     });
     res.send({
@@ -114,6 +119,7 @@ exports.getBook = async (req, res) => {
     book = {
       ...book,
       bookFile: process.env.FILE_PATH + book.bookFile,
+      cover: process.env.FILE_PATH + book.cover,
     };
 
     res.send({
@@ -166,6 +172,7 @@ exports.updateBook = async (req, res) => {
 
     book = {
       ...book,
+      cover: process.env.FILE_PATH + book.cover,
       bookFile: process.env.FILE_PATH + book.bookFile,
     };
 

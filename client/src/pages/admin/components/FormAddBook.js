@@ -19,6 +19,7 @@ export default function FormAddBook() {
     author: "",
     isbn: "",
     about: "",
+    cover: "",
     bookFile: "",
     userId: state.user.id,
   });
@@ -30,7 +31,7 @@ export default function FormAddBook() {
         e.target.type === "file" ? e.target.files : e.target.value,
     });
 
-    if (e.target.type === "file") {
+    if (e.target.name === "cover") {
       let url = URL.createObjectURL(e.target.files[0]);
       setPreview(url);
     }
@@ -53,12 +54,13 @@ export default function FormAddBook() {
       formData.set("author", form.author);
       formData.set("isbn", form.isbn);
       formData.set("about", form.about);
+      formData.set("cover", form.cover[0], form.cover[0].name);
       formData.set("bookFile", form.bookFile[0], form.bookFile[0].name);
 
       const response = await API.post("/book", formData, config);
-      console.log(response);
+      // console.log(response);
 
-      history.push("/admin");
+      history.push("/admin-book");
     } catch (error) {
       console.log(error);
     }
@@ -120,26 +122,32 @@ export default function FormAddBook() {
             rows="3"
           ></textarea>
         </div>
-        {preview && (
-          <div>
-            <img
-              src={preview}
-              style={{
-                maxWidth: "150px",
-                maxHeight: "150px",
-                objectFit: "cover",
-              }}
-              alt="preview"
-            />
-          </div>
-        )}
-        <div>
-          <label htmlFor="file">
+        <div className="mb-3">
+          <label htmlFor="bookFile">
             <input
               type="file"
               name="bookFile"
               hidden
-              id="file"
+              id="bookFile"
+              onChange={handleChange}
+            />
+            <Card style={{ height: "40px", width: "15rem" }}>
+              <Card.Body style={{ marginTop: "-10px" }}>
+                <span className="me-5 text-muted fw-bold p-e">
+                  Book File
+                  <IoMdAttach size={20} className="text-muted fw-bold" />
+                </span>
+              </Card.Body>
+            </Card>
+          </label>
+        </div>
+        <div>
+          <label htmlFor="cover">
+            <input
+              type="file"
+              name="cover"
+              hidden
+              id="cover"
               onChange={handleChange}
             />
             <Card style={{ height: "40px", width: "15rem" }}>
@@ -151,6 +159,19 @@ export default function FormAddBook() {
               </Card.Body>
             </Card>
           </label>
+          {preview && (
+            <div className="mt-3 mb-3">
+              <img
+                src={preview}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  objectFit: "cover",
+                }}
+                alt="preview"
+              />
+            </div>
+          )}
           <div className="mb-5 mt-2 text-end">
             <button type="submit" className="btn-reg auto">
               Add Book

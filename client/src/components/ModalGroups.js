@@ -40,7 +40,7 @@ function ModalLogin(props) {
 
       const response = await API.post("/login", body, config);
 
-      console.log(response);
+      // console.log(response);
 
       dispatch({
         type: "LOGIN_SUCCESS",

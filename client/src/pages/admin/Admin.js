@@ -6,12 +6,12 @@ import NavBarAdmin from "./components/NavBarAdmin";
 export default function Admin() {
   return (
     <>
-      <Container>
+      <Container fluid>
         <Row className="d-flex flex-column">
-          <Col className="mb-5">
+          <Col>
             <NavBarAdmin />
           </Col>
-          <Col>
+          <Col className="p-3">
             <h2 className="mb-5 fw-bold">Incoming Transaction</h2>
             <List />
           </Col>

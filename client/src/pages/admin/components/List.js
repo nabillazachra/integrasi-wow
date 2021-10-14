@@ -1,44 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { AiFillCaretDown } from "react-icons/ai";
-import { Dropdown } from "react-bootstrap";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 
 import { API } from "../../../config/api";
 
-function DropdownList() {
-  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <span
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-    </span>
-  ));
-
-  return (
-    <>
-      <Dropdown>
-        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-          <AiFillCaretDown size={25} className="p-e text-primary" />
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="mb-5">
-          <Dropdown.Item>
-            <span className="text-success fw-bold">Approve</span>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <span className="text-danger fw-bold">Cancel</span>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </>
-  );
-}
-
 export default function List() {
   const [transactions, setTransactions] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const getTransactions = async () => {
     try {
@@ -50,9 +19,49 @@ export default function List() {
     }
   };
 
+  const handleApprove = async (id) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      let approve = {
+        paymentStatus: "Approved",
+      };
+
+      const response = await API.patch("/transaction/" + id, approve, config);
+      setReload(true);
+    } catch (error) {
+      console.log();
+    }
+  };
+
+  const handleCancel = async (id) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      let approve = {
+        paymentStatus: "Cancel",
+      };
+
+      const response = await API.patch("/transaction/" + id, approve, config);
+      setReload(true);
+    } catch (error) {
+      console.log();
+    }
+  };
+
+  console.log(reload);
+
   useEffect(() => {
     getTransactions();
-  }, []);
+  }, [reload]);
 
   const getBackgroundColor = (dataStatus) => {
     if (dataStatus === "Approved") {
@@ -100,7 +109,20 @@ export default function List() {
               </td>
               <td>{getBackgroundColor(userData.paymentStatus)}</td>
               <td align="center">
-                <DropdownList />
+                <DropdownButton id="dropdown-basic-button">
+                  <Dropdown.Item
+                    className="text-success"
+                    onClick={() => handleApprove(userData.id)}
+                  >
+                    Approved
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="text-danger"
+                    onClick={() => handleCancel(userData.id)}
+                  >
+                    Cancel
+                  </Dropdown.Item>
+                </DropdownButton>
               </td>
             </tr>
           ))}

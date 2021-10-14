@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      accountNumber: {
+        type: Sequelize.STRING,
+      },
       transferProof: {
         type: Sequelize.STRING,
       },

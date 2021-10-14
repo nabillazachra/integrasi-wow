@@ -16,6 +16,7 @@ import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 import AddBook from "./pages/admin/AddBook";
 import Admin from "./pages/admin/Admin";
+import ListBook from "./pages/admin/ListBook";
 
 import { API, setAuthToken } from "./config/api";
 
@@ -53,6 +54,7 @@ function App() {
       }
 
       let payload = response.data.data.user;
+      // console.log(payload);
       payload.token = localStorage.token;
 
       dispatch({
@@ -76,9 +78,10 @@ function App() {
       <PrivateRoute path="/home" component={Home} />
       <PrivateRoute path="/admin" component={Admin} />
       <PrivateRoute path="/detail-book/:id" component={DetailBook} />
-      <PrivateRoute path="/read-book" component={ReadBook} />
+      <PrivateRoute path="/read-book/:id" component={ReadBook} />
       <PrivateRoute path="/add-book" component={AddBook} />
-      <PrivateRoute path="/edit-profile" component={EditProfile} />
+      <PrivateRoute path="/admin-book" component={ListBook} />
+      <PrivateRoute path="/edit-profile/:id" component={EditProfile} />
       <Route exact path="*" component={NotFound} />
     </Switch>
   );

@@ -114,9 +114,13 @@ exports.login = async (req, res) => {
       status: "success",
       data: {
         user: {
+          id: userExist.id,
           fullname: userExist.fullname,
           email: userExist.email,
           role: userExist.role,
+          gender: userExist.gender,
+          phone: userExist.phone,
+          address: userExist.address,
           token,
         },
       },
@@ -157,6 +161,9 @@ exports.checkAuth = async (req, res) => {
           fullname: dataUser.fullname,
           email: dataUser.email,
           role: dataUser.role,
+          gender: dataUser.gender,
+          phone: dataUser.phone,
+          address: dataUser.address,
         },
       },
     });

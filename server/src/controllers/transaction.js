@@ -6,7 +6,8 @@ exports.addTransaction = async (req, res) => {
     const data = req.body;
 
     const newTrans = await transaction.create({
-      transferProof: req.file.filename,
+      accountNumber: req.body.accountNumber,
+      transferProof: req.files.transferProof[0].filename,
       remainingActive: "30",
       userStatus: "Not Active",
       paymentStatus: "Pending",
@@ -56,7 +57,13 @@ exports.getTransactions = async (req, res) => {
         },
       },
       attributes: {
-        exclude: ["userId", "transId", "createdAt", "updatedAt"],
+        exclude: [
+          "accountNumber",
+          "userId",
+          "transId",
+          "createdAt",
+          "updatedAt",
+        ],
       },
     });
 

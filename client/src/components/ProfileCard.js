@@ -11,12 +11,12 @@ import { useHistory } from "react-router";
 import { UserContext } from "../context/userContext";
 
 export default function ProfileCard() {
+  const [state] = useContext(UserContext);
+
   let historyEditProfile = useHistory();
   const handleEditProfile = () => {
-    historyEditProfile.push("/edit-profile");
+    historyEditProfile.push("/edit-profile/" + state.user.id);
   };
-
-  const [state] = useContext(UserContext);
 
   return (
     <>
@@ -40,7 +40,7 @@ export default function ProfileCard() {
                   <FaTransgender className="mt-2" size={30} />
                 </div>
                 <div>
-                  <p className="fw-bold">Male</p>
+                  <p className="fw-bold">{state.user.gender}</p>
                   <span className="text-muted">Gender</span>
                 </div>
               </div>
@@ -51,7 +51,7 @@ export default function ProfileCard() {
                   <FaPhoneAlt className="mt-2" size={30} />
                 </div>
                 <div>
-                  <p className="fw-bold">0812-8623-8911</p>
+                  <p className="fw-bold">{state.user.phone}</p>
                   <span className="text-muted">Mobile phone</span>
                 </div>
               </div>
@@ -62,9 +62,7 @@ export default function ProfileCard() {
                   <IoLocationSharp className="mt-2" size={30} />
                 </div>
                 <div>
-                  <p className="fw-bold">
-                    Perumahan Permata Bintaro Residence C-3
-                  </p>
+                  <p className="fw-bold">{state.user.address}</p>
                   <span className="text-muted">Address</span>
                 </div>
               </div>

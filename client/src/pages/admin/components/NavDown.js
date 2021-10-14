@@ -3,6 +3,7 @@ import zayn from "../../../assets/img/zayn.png";
 import { Dropdown } from "react-bootstrap";
 import { MdBook } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
+import { BsFillBookmarksFill } from "react-icons/bs";
 
 import { useHistory } from "react-router";
 
@@ -25,6 +26,12 @@ export default function NavDown() {
       type: "LOGOUT",
     });
     historyLogout.push("/");
+  };
+
+  let historyList = useHistory();
+
+  const handlePushList = () => {
+    historyList.push("/admin-book");
   };
 
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -52,14 +59,24 @@ export default function NavDown() {
         <Dropdown.Menu className="mb-5">
           <Dropdown.Item>
             <MdBook className="text-muted" />
-            <span onClick={handleAddBook} className="ms-2 fw-bold">
+            <span onClick={handleAddBook} className="text-muted ms-2 fw-bold">
               Add Book
             </span>
           </Dropdown.Item>
           <hr />
           <Dropdown.Item>
+            <BsFillBookmarksFill className="text-success" />
+            <span
+              onClick={handlePushList}
+              className="text-success ms-2 fw-bold"
+            >
+              Book List
+            </span>
+          </Dropdown.Item>
+          <hr />
+          <Dropdown.Item>
             <FiLogOut className="text-danger" />
-            <span onClick={handleLogout} className="ms-2 fw-bold">
+            <span onClick={handleLogout} className="text-danger ms-2 fw-bold">
               Logout
             </span>
           </Dropdown.Item>

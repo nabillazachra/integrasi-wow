@@ -6,6 +6,7 @@ import Attach from "../assets/img/Vector.png";
 
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
+import { useHistory } from "react-router";
 
 function ModalSuccess(props) {
   return (
@@ -23,11 +24,13 @@ function ModalSuccess(props) {
 }
 
 export default function Subscribe() {
+  let history = useHistory();
   const [modalShow, setModalShow] = useState(false);
   const [state] = useContext(UserContext);
 
   const [preview, setPreview] = useState(null);
   const [form, setForm] = useState({
+    accountNumber: "",
     transferProof: "",
     userId: state.user.id,
   });
@@ -56,6 +59,7 @@ export default function Subscribe() {
       };
 
       const formData = new FormData();
+      formData.set("accountNumber", form.accountNumber);
       formData.set(
         "transferProof",
         form.transferProof[0],
@@ -63,9 +67,10 @@ export default function Subscribe() {
       );
 
       const response = await API.post("/transaction", formData, config);
-      console.log(response);
+      // console.log(response);
 
       setModalShow(true);
+      history.push("/home");
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +98,8 @@ export default function Subscribe() {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    name="account"
+                    onChange={handleSubscribeChange}
+                    name="accountNumber"
                     placeholder="Input your account number"
                   />
                 </Form.Group>

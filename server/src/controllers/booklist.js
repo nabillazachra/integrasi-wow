@@ -15,7 +15,23 @@ exports.addList = async (req, res) => {
       },
       include: {
         models: users,
-        as: "users",
+        as: "bookList",
+        attributes: {
+          exclude: [
+            "email",
+            "password",
+            "role",
+            "phone",
+            "gender",
+            "address",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+      },
+      include: {
+        models: books,
+        as: "bookList",
         attributes: {
           exclude: [
             "email",
@@ -57,29 +73,31 @@ exports.getLists = async (req, res) => {
       where: {
         userId: req.users.id,
       },
-      include: {
-        model: users,
-        as: "users",
-        attributes: {
-          exclude: [
-            "email",
-            "password",
-            "role",
-            "phone",
-            "gender",
-            "address",
-            "createdAt",
-            "updatedAt",
-          ],
+      include: [
+        {
+          model: users,
+          as: "users",
+          attributes: {
+            exclude: [
+              "email",
+              "password",
+              "role",
+              "phone",
+              "gender",
+              "address",
+              "createdAt",
+              "updatedAt",
+            ],
+          },
         },
-      },
-      include: {
-        model: books,
-        as: "books",
-        attributes: {
-          exclude: ["bookId", "createdAt", "updatedAt"],
+        {
+          model: books,
+          as: "books",
+          attributes: {
+            exclude: ["bookId", "createdAt", "updatedAt"],
+          },
         },
-      },
+      ],
       attributes: {
         exclude: ["userId", "bookId", "createdAt", "updatedAt"],
       },
@@ -94,7 +112,7 @@ exports.getLists = async (req, res) => {
     });
     res.send({
       status: "success",
-      data: { booklists: list },
+      data: { list },
     });
   } catch (error) {
     console.log(error);

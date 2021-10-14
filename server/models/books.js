@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       author: DataTypes.STRING,
       isbn: DataTypes.STRING,
       about: DataTypes.STRING,
+      cover: DataTypes.STRING,
       bookFile: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },

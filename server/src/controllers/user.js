@@ -1,4 +1,4 @@
-const { users } = require("../../models");
+const { users, transaction } = require("../../models");
 
 //Add user route
 exports.addUser = async (req, res) => {
@@ -42,16 +42,37 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await users.findOne({
+    let data = await users.findOne({
       where: { id },
+      include: {
+        model: transaction,
+        as: "clientTransaction",
+        attributes: {
+          exclude: [
+            "id",
+            "transferProof",
+            "accountNumber",
+            "createdAt",
+            "updatedAt",
+            "remainingActive",
+            "userId",
+          ],
+        },
+      },
       attributes: {
         exclude: ["password", "createdAt", "updatedAt"],
       },
     });
 
+    data = JSON.parse(JSON.stringify(data));
+
+    const user = {
+      ...data,
+    };
+
     res.send({
       status: "success",
-      data: { user: data },
+      data: { user },
     });
   } catch (error) {
     console.log(error);
@@ -66,10 +87,9 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
+    const data = req.body;
     const updateData = {
-      phone: req.body.phone,
-      gender: req.body.gender,
-      address: req.body.address,
+      ...data,
     };
 
     await users.update(updateData, {
