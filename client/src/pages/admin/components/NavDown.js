@@ -3,6 +3,7 @@ import zayn from "../../../assets/img/zayn.png";
 import { Dropdown } from "react-bootstrap";
 import { MdBook } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
+import { BsFillBookmarksFill } from "react-icons/bs";
 
 import { useHistory } from "react-router";
 
@@ -64,7 +65,7 @@ export default function NavDown() {
           </Dropdown.Item>
           <hr />
           <Dropdown.Item>
-            <MdBook className="text-success" />
+            <BsFillBookmarksFill className="text-success" />
             <span
               onClick={handlePushList}
               className="text-success ms-2 fw-bold"
