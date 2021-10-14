@@ -16,6 +16,7 @@ import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 import AddBook from "./pages/admin/AddBook";
 import Admin from "./pages/admin/Admin";
+import ListBook from "./pages/admin/ListBook";
 
 import { API, setAuthToken } from "./config/api";
 
@@ -79,6 +80,7 @@ function App() {
       <PrivateRoute path="/detail-book/:id" component={DetailBook} />
       <PrivateRoute path="/read-book/:id" component={ReadBook} />
       <PrivateRoute path="/add-book" component={AddBook} />
+      <PrivateRoute path="/admin-book" component={ListBook} />
       <PrivateRoute path="/edit-profile/:id" component={EditProfile} />
       <Route exact path="*" component={NotFound} />
     </Switch>

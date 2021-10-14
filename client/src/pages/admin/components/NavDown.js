@@ -27,6 +27,12 @@ export default function NavDown() {
     historyLogout.push("/");
   };
 
+  let historyList = useHistory();
+
+  const handlePushList = () => {
+    historyList.push("/admin-book");
+  };
+
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <span
       ref={ref}
@@ -52,14 +58,24 @@ export default function NavDown() {
         <Dropdown.Menu className="mb-5">
           <Dropdown.Item>
             <MdBook className="text-muted" />
-            <span onClick={handleAddBook} className="ms-2 fw-bold">
+            <span onClick={handleAddBook} className="text-muted ms-2 fw-bold">
               Add Book
             </span>
           </Dropdown.Item>
           <hr />
           <Dropdown.Item>
+            <MdBook className="text-success" />
+            <span
+              onClick={handlePushList}
+              className="text-success ms-2 fw-bold"
+            >
+              Book List
+            </span>
+          </Dropdown.Item>
+          <hr />
+          <Dropdown.Item>
             <FiLogOut className="text-danger" />
-            <span onClick={handleLogout} className="ms-2 fw-bold">
+            <span onClick={handleLogout} className="text-danger ms-2 fw-bold">
               Logout
             </span>
           </Dropdown.Item>

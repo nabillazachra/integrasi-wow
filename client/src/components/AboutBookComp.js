@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 
@@ -6,10 +6,8 @@ import { API } from "../config/api";
 
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineRight } from "react-icons/ai";
-import { UserContext } from "../context/userContext";
 
 export default function AboutBookComp() {
-  const [state] = useContext(UserContext);
   let history = useHistory();
 
   let { id } = useParams();
@@ -21,11 +19,11 @@ export default function AboutBookComp() {
 
   const check = async () => {
     try {
-      const check = await API.get("/book-list" + state.user.id);
-      const checkBool = check.data.data.list.books.filter((item) => {
-        return item.Books?.id === +id;
+      const check = await API.get("/book-list");
+      const booleanCheck = check.data.data.list.filter((item) => {
+        return item.id === +id;
       });
-      checkBool.length > 0 ? setIsChecked(true) : setIsChecked(false);
+      booleanCheck.length > 0 ? setIsChecked(true) : setIsChecked(false);
     } catch (error) {
       console.log(error);
     }

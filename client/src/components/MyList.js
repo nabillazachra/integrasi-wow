@@ -1,22 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { UserContext } from "../context/userContext";
 
 import { API } from "../config/api";
 
 export default function ListData() {
   let history = useHistory();
-  const [state] = useContext(UserContext);
 
   const [book, setBooks] = useState([]);
 
   const getBooks = async () => {
     try {
-      const response = await API.get("/book-list/" + state.user.id);
+      const response = await API.get("/book-list");
 
       setBooks(response.data.data.list);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

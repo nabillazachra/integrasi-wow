@@ -20,7 +20,7 @@ export default function DetailBookComp() {
 
   useEffect(() => {
     getBook();
-  });
+  }, []);
 
   return (
     <>

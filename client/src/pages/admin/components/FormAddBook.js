@@ -60,7 +60,7 @@ export default function FormAddBook() {
       const response = await API.post("/book", formData, config);
       // console.log(response);
 
-      history.push("/admin");
+      history.push("/admin-book");
     } catch (error) {
       console.log(error);
     }
